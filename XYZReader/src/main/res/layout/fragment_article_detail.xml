@@ -82,7 +82,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_xlarge"
                 app:cardElevation="@dimen/spacing_medium"
                 app:cardUseCompatPadding="true">
 

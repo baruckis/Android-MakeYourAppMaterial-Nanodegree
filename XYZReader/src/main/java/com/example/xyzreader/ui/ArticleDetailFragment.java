@@ -47,9 +47,9 @@ public class ArticleDetailFragment extends Fragment implements
     private int mTopInset;
     private View mPhotoContainerView;
     private ImageView mPhotoView;
-    private int mScrollY;
-    private boolean mIsCard = false;
-    private int mStatusBarFullOpacityBottom;
+//    private int mScrollY;
+//    private boolean mIsCard = false;
+//    private int mStatusBarFullOpacityBottom;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -134,7 +134,7 @@ public class ArticleDetailFragment extends Fragment implements
             }
         });
 
-        bindViews();
+//        bindViews();
 //        updateStatusBar();
         return mRootView;
     }
@@ -154,19 +154,19 @@ public class ArticleDetailFragment extends Fragment implements
 //        mDrawInsetsFrameLayout.setInsetBackground(mStatusBarColorDrawable);
 //    }
 
-    static float progress(float v, float min, float max) {
-        return constrain((v - min) / (max - min), 0, 1);
-    }
-
-    static float constrain(float val, float min, float max) {
-        if (val < min) {
-            return min;
-        } else if (val > max) {
-            return max;
-        } else {
-            return val;
-        }
-    }
+//    static float progress(float v, float min, float max) {
+//        return constrain((v - min) / (max - min), 0, 1);
+//    }
+//
+//    static float constrain(float val, float min, float max) {
+//        if (val < min) {
+//            return min;
+//        } else if (val > max) {
+//            return max;
+//        } else {
+//            return val;
+//        }
+//    }
 
     private void bindViews() {
         if (mRootView == null) {
@@ -180,9 +180,9 @@ public class ArticleDetailFragment extends Fragment implements
         bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         if (mCursor != null) {
-            mRootView.setAlpha(0);
+//            mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
-            mRootView.animate().alpha(1);
+//            mRootView.animate().alpha(1);
 //            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             bylineView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
@@ -251,14 +251,14 @@ public class ArticleDetailFragment extends Fragment implements
         bindViews();
     }
 
-    public int getUpButtonFloor() {
-        if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
-            return Integer.MAX_VALUE;
-        }
-
-        // account for parallax
-        return mIsCard
-                ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
-                : mPhotoView.getHeight() - mScrollY;
-    }
+//    public int getUpButtonFloor() {
+//        if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
+//            return Integer.MAX_VALUE;
+//        }
+//
+//        // account for parallax
+//        return mIsCard
+//                ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
+//                : mPhotoView.getHeight() - mScrollY;
+//    }
 }
