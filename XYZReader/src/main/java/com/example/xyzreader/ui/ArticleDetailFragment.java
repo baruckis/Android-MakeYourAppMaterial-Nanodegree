@@ -8,7 +8,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
@@ -50,6 +54,8 @@ public class ArticleDetailFragment extends Fragment implements
 //    private int mScrollY;
 //    private boolean mIsCard = false;
 //    private int mStatusBarFullOpacityBottom;
+
+    private CollapsingToolbarLayout mCollapsingToolbar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -93,6 +99,8 @@ public class ArticleDetailFragment extends Fragment implements
         // fragments because their mIndex is -1 (haven't been added to the activity yet). Thus,
         // we do this in onActivityCreated.
         getLoaderManager().initLoader(0, null, this);
+
+
     }
 
     @Override
@@ -133,6 +141,26 @@ public class ArticleDetailFragment extends Fragment implements
                         .getIntent(), getString(R.string.action_share)));
             }
         });
+
+        Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.article_toolbar);
+        getActivityCast().setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Respond to the action bar's Up/Home button
+                NavUtils.navigateUpFromSameTask(getActivity());
+            }
+        });
+
+        ActionBar actionBar = getActivityCast().getSupportActionBar();
+        if (actionBar!=null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        mCollapsingToolbar= (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar);
 
 //        bindViews();
 //        updateStatusBar();
@@ -183,15 +211,16 @@ public class ArticleDetailFragment extends Fragment implements
 //            mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
 //            mRootView.animate().alpha(1);
+            mCollapsingToolbar.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
 //            titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             bylineView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
                             System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
                             DateUtils.FORMAT_ABBREV_ALL).toString()
-                            + " by <font color='#ffffff'>"
+                            + " by <b'>"
                             + mCursor.getString(ArticleLoader.Query.AUTHOR)
-                            + "</font>"));
+                            + "</b>"));
             bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY)));
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
@@ -216,6 +245,7 @@ public class ArticleDetailFragment extends Fragment implements
         } else {
             mRootView.setVisibility(View.GONE);
 //            titleView.setText("N/A");
+            mCollapsingToolbar.setTitle("N/A");
             bylineView.setText("N/A" );
             bodyView.setText("N/A");
         }

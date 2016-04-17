@@ -8,7 +8,10 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.view.OnApplyWindowInsetsListener;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.WindowInsetsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -46,6 +49,11 @@ public class ArticleDetailActivity extends AppCompatActivity
 //        }
         setContentView(R.layout.activity_article_detail);
 
+
+
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getLoaderManager().initLoader(0, null, this);
 
         mPagerAdapter = new MyPagerAdapter(getFragmentManager());
@@ -73,6 +81,28 @@ public class ArticleDetailActivity extends AppCompatActivity
 //                updateUpButtonPosition();
             }
         });
+
+        // Solution proposed by Android Team. Issue: https://code.google.com/p/android/issues/detail?id=180492
+        ViewCompat.setOnApplyWindowInsetsListener(mPager,
+                new OnApplyWindowInsetsListener() {
+                    @Override
+                    public WindowInsetsCompat onApplyWindowInsets(View v,
+                                                                  WindowInsetsCompat insets) {
+                        insets = ViewCompat.onApplyWindowInsets(v, insets);
+                        if (insets.isConsumed()) {
+                            return insets;
+                        }
+
+                        boolean consumed = false;
+                        for (int i = 0, count = mPager.getChildCount(); i <  count; i++) {
+                            ViewCompat.dispatchApplyWindowInsets(mPager.getChildAt(i), insets);
+                            if (insets.isConsumed()) {
+                                consumed = true;
+                            }
+                        }
+                        return consumed ? insets.consumeSystemWindowInsets() : insets;
+                    }
+                });
 
 //        mUpButtonContainer = findViewById(R.id.up_container);
 //
