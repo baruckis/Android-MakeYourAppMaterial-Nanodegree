@@ -16,7 +16,7 @@
 
         <activity
             android:name=".ui.ArticleListActivity"
-
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +26,7 @@
 
         <activity
             android:name=".ui.ArticleDetailActivity"
+            android:screenOrientation="portrait"
             android:parentActivityName=".ui.ArticleListActivity"
             android:theme="@style/Theme.Bacon.NoActionBar">
             <intent-filter>
